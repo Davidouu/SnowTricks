@@ -41,9 +41,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $imageurl = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creationdate = null;
 
@@ -170,18 +167,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getImageurl(): ?string
-    {
-        return $this->imageurl;
-    }
-
-    public function setImageurl(string $imageurl): static
-    {
-        $this->imageurl = $imageurl;
 
         return $this;
     }
