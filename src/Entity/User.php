@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $validate = null;
+    private ?bool $isvalidate = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(['message' => 'Vous devez inscrire un prénom.'])]
@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->creationdate = new \DateTime();
-        $this->validate = false;
+        $this->isvalidate = false;
     }
 
     public function getId(): ?int
@@ -154,12 +154,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isValidate(): ?bool
     {
-        return $this->validate;
+        return $this->isvalidate;
     }
 
-    public function setValidate(bool $validate): static
+    public function setIsValidate(bool $isvalidate): static
     {
-        $this->validate = $validate;
+        $this->isvalidate = $isvalidate;
 
         return $this;
     }
