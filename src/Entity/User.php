@@ -5,11 +5,15 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: 'username', message: 'Le nom d\'utilisateur est déjà utilisé')]
+#[UniqueEntity(fields: 'email', message: 'L\'adresse email est déjà utilisée')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire un nom d\'utilisateur.'])]
     private ?string $username = null;
 
     #[ORM\Column]
@@ -27,18 +32,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire un mot de passe.'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire un email.'])]
+    #[Assert\Email(message: 'Veuillez saisir une adresse email valide')]
     private ?string $email = null;
 
     #[ORM\Column]
     private ?bool $validate = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire un prénom.'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire un nom.'])]
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -52,6 +62,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $resettokenexpiration = null;
+
+    public function __construct()
+    {
+        $this->creationdate = new \DateTime();
+        $this->validate = false;
+    }
 
     public function getId(): ?int
     {
