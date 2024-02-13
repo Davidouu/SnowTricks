@@ -33,6 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank(['message' => 'Vous devez inscrire un mot de passe.'])]
+    #[Assert\PasswordStrength(['message' => 'Votre mot de passe est trop faible.'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
