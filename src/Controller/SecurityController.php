@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\UserFormType;
+use App\Entity\User;
 
 class SecurityController extends AbstractController
 {
@@ -36,9 +37,10 @@ class SecurityController extends AbstractController
     #[Route(path: '/register', name: 'app_register')]
     public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $form = $this->createForm(UserFormType::class);
+        $user = new User();
 
-        $form->handleRequest($request);
+        $form = $this->createForm(UserFormType::class, $user)
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les données du formulaire
@@ -54,10 +56,10 @@ class SecurityController extends AbstractController
             );
 
             // On remplace le mot de passe en clair par le mot de passe hashé
-            $registrationForm->setPassword($hashedPassword);
+            $user->setPassword($hashedPassword);
 
             // On sauvegarde l'utilisateur en base de données
-            $entityManager->persist($registrationForm);
+            $entityManager->persist($user);
             $entityManager->flush();
 
             // On redirige l'utilisateur vers la page de connexion
