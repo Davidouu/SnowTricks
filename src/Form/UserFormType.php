@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class UserFormType extends AbstractType
 {
@@ -16,7 +17,7 @@ class UserFormType extends AbstractType
             ->add('username', null, [
                 'required' => true,
             ])
-            ->add('email', null, [
+            ->add('email', EmailType::class, [
                 'required' => true,
             ])
             ->add('firstname', null, [
