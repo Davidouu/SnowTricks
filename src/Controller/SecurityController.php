@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\UserFormType;
 use App\Entity\User;
+use App\Service\SendMail;
 
 class SecurityController extends AbstractController
 {
@@ -35,7 +36,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/register', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, SendMail $sendMail): Response
     {
         $user = new User();
 
@@ -61,6 +62,12 @@ class SecurityController extends AbstractController
             // On sauvegarde l'utilisateur en base de données
             $entityManager->persist($user);
             $entityManager->flush();
+
+            // On envoie un email de confirmation grâce au service Mailer
+            $sendMail->sendMail($user);
+
+            // Ajout du message flash
+            $this->addFlash('success', 'Votre compte a bien été créé ! Vous allez recevoir un email de confirmation.');
 
             // On redirige l'utilisateur vers la page de connexion
             return $this->redirectToRoute('app_login');
