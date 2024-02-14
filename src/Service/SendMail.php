@@ -25,7 +25,7 @@ class SendMail
             ))
             ->to($user->getEmail())
             ->subject('Bienvenue sur SnowTricks')
-            ->text('security/mail/confirme_email.html.twig');
+            ->htmlTemplate('Security/mail/confirme_email.html.twig');
 
         $context = $email->getContext();
         $context['id'] = $user->getId();
