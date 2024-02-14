@@ -59,6 +59,9 @@ class SecurityController extends AbstractController
             // On remplace le mot de passe en clair par le mot de passe hashé
             $user->setPassword($hashedPassword);
 
+            // On génère un token pour la confirmation du compte
+            $user->setToken(md5(uniqid()));
+
             // On sauvegarde l'utilisateur en base de données
             $entityManager->persist($user);
             $entityManager->flush();
@@ -76,5 +79,25 @@ class SecurityController extends AbstractController
         return $this->render('security/register.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route(path: '/confirmation/{id}/{token}', name: 'app_confirm_account')]
+    public function confirmAccount($id, $token, EntityManagerInterface $entityManager): Response
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if ($user && $user->getConfirmationToken() === $token) {
+            $user->setConfirmationToken(null);
+            $user->setIsVerified(true);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre compte a bien été confirmé ! Vous pouvez maintenant vous connecter.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        $this->addFlash('danger', 'Ce lien de confirmation n\'est pas valide.');
+
+        return $this->redirectToRoute('app_login');
     }
 }
