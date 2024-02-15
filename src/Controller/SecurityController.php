@@ -12,6 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\UserFormType;
 use App\Entity\User;
 use App\Service\SendMail;
+use App\Service\ValidateToken;
 
 class SecurityController extends AbstractController
 {
@@ -73,7 +74,7 @@ class SecurityController extends AbstractController
             $this->addFlash('success', 'Votre compte a bien été créé ! Vous allez recevoir un email de confirmation.');
 
             // On redirige l'utilisateur vers la page de connexion
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('security/register.html.twig', [
@@ -82,21 +83,17 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/confirmation/{id}/{token}', name: 'app_confirm_account')]
-    public function confirmAccount($id, $token, EntityManagerInterface $entityManager): Response
+    public function confirmAccount(User $user, string $token, ValidateToken $verifyer): Response
     {
-        $user = $entityManager->getRepository(User::class)->find($id);
+        try {
+            $verifyer->handleEmailConfirmation($token, $user);
+        } catch (\Exception $e) {
+            $this->addFlash('danger', $e->getMessage());
 
-        if ($user && $user->getConfirmationToken() === $token) {
-            $user->setConfirmationToken(null);
-            $user->setIsVerified(true);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre compte a bien été confirmé ! Vous pouvez maintenant vous connecter.');
-
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_register');
         }
 
-        $this->addFlash('danger', 'Ce lien de confirmation n\'est pas valide.');
+        $this->addFlash('success', 'Votre compte a bien été confirmé ! Vous pouvez maintenant vous connecter.');
 
         return $this->redirectToRoute('app_login');
     }
