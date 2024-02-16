@@ -9,10 +9,12 @@
         {% endblock %}
     </head>
     <body>
+        {% include 'flash_message/flash.html.twig' %}
         {% block body %}{% endblock %}
 
         {% block javascripts %}
         {% endblock %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         {{ encore_entry_script_tags('app') }}
     </body>
 </html>
