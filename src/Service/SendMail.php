@@ -25,11 +25,32 @@ class SendMail
             ))
             ->to($user->getEmail())
             ->subject('Bienvenue sur SnowTricks')
-            ->htmlTemplate('Security/mail/confirm_email.html.twig');
+            ->htmlTemplate('security/mail/confirm_email.html.twig');
 
         $context = $email->getContext();
         $context['id'] = $user->getId();
         $context['token'] = $user->getToken();
+
+        $email->context($context);
+
+        $this->mailer->send($email);
+    }
+
+    public function sendResetMail(User $user)
+    {
+        $email = (new TemplatedEmail())
+            ->from(new Address(
+                'reset.password@snowtricks.fr',
+                'SnowTricks'
+            ))
+            ->to($user->getEmail())
+            ->subject('Réinitialisation de votre mot de passe')
+            ->htmlTemplate('security/mail/reset_password.html.twig');
+
+        $context = $email->getContext();
+        $context['id'] = $user->getId();
+        $context['token'] = $user->getResetToken();
+        $context['date'] = $user->getResettokenexpiration();
 
         $email->context($context);
 
