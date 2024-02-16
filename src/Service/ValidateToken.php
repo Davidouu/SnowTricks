@@ -22,4 +22,11 @@ class ValidateToken
         $user->setIsValidate(true);
         $this->entityManager->flush();
     }
+
+    public function handlePasswordReset(string $token, User $user): void
+    {
+        if (!$user && $user->getResetToken() !== $token && $user->getResetTokenExpiration() < new \DateTime()){
+            throw new \Exception("Votre lien de réinitialisation n'est pas valide.");
+        }
+    }
 }
