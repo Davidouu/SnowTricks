@@ -1,32 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+<div class="mx-auto max-w-xl flex flex-col items-center justify-center mt-20">
+    <h1 class="h3 text-4xl mb-6 mt-3 text-center font-bold">Connexion</h1>
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+    <div class="w-1/2 border-solid border-2 rounded-md p-4">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        <form method="post">
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </div>
+            {% endif %}
+            <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}">
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+            <div class="mb-2">
+                <label class="block text-gray-700 text-sm mb-1" for="inputUsername">Nom d'utilisateur</label>
+                <input placeholder="Nom d'utilisateur" type="text" 
+                value="{{ last_username }}" name="username" id="inputUsername" 
+                class="form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none" 
+                autocomplete="username" required autofocus>
+            </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
-<a href="{{ url('app_forgot_password') }}">Mot de passe oublié ?</a>
+            <div class="mb-2">
+                <label class="block text-gray-700 text-sm mb-1" for="inputPassword">Mot de passe</label>
+                <input placeholder="************" type="password" 
+                name="password" id="inputPassword" 
+                class="form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none" 
+                autocomplete="current-password" required>
+            </div>
+            <input class="mt-4 pt-2 pb-2 pl-4 pr-4 bg-blue-200 rounded-lg hover:cursor-pointer" type="submit" value="S'inscrire" />
+        </form>
+
+        <a href="{{ url('app_forgot_password') }}">Mot de passe oublié ?</a>
+    </div>
+</div>
 {% endblock %}
