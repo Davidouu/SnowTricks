@@ -9,7 +9,7 @@
     <div class="w-1/2 border-solid border-2 rounded-md p-4">
         {{ form_start(form) }}
             <div class="mb-2">
-                <label for="username" class="block text-gray-700 text-sm mb-1">Nom d'utilisateur</label>
+                {{ form_label(form.username, 'Nom d\'utilisateur', { 'label_attr' : { 'class' : 'block text-gray-700 text-sm mb-1'}}) }}
                 {{ form_widget(form.username, 
                 { 'attr': {'class': 'form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none',
                 'placeholder': 'Username'} }) }}
@@ -18,7 +18,7 @@
                 {% endif %}
             </div>  
             <div class="mb-2">
-                <label for="firstname" class="block text-gray-700 text-sm mb-1">Prénom</label>
+                {{ form_label(form.firstname, 'Prénom', { 'label_attr' : { 'class' : 'block text-gray-700 text-sm mb-1'}}) }}
                 {{ form_widget(form.firstname, 
                 { 'attr': {'class': 'form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none',
                 'placeholder': 'Jean'} }) }}
@@ -27,7 +27,7 @@
                 {% endif %}
             </div>
             <div class="mb-2">
-                <label for="lastname" class="block text-gray-700 text-sm mb-1">Nom</label>
+                {{ form_label(form.lastname, 'Nom', { 'label_attr' : { 'class' : 'block text-gray-700 text-sm mb-1'}}) }}
                 {{ form_widget(form.lastname, 
                 { 'attr': {'class': 'form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none',
                 'placeholder': 'Dupont'} }) }}
@@ -36,7 +36,7 @@
                 {% endif %}
             </div>
             <div class="mb-2">
-                <label for="email" class="block text-gray-700 text-sm mb-1">Email</label>
+                {{ form_label(form.email, 'Email', { 'label_attr' : { 'class' : 'block text-gray-700 text-sm mb-1'}}) }}
                 {{ form_widget(form.email, 
                 { 'attr': {'class': 'form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none',
                 'placeholder': 'mail@mail.com'} }) }}
@@ -45,7 +45,7 @@
                 {% endif %}
             </div>
             <div class="mb-2">
-                <label for="password" class="block text-gray-700 text-sm mb-1">Mot de passe</label>
+                {{ form_label(form.password, 'Mot de passe', { 'label_attr' : { 'class' : 'block text-gray-700 text-sm mb-1'}}) }}
                 {{ form_widget(form.password, 
                 { 'attr': {'class': 'form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none',
                 'placeholder': '**********'} }) }}
