@@ -83,10 +83,10 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/confirmation/{id}/{token}', name: 'app_confirm_account')]
-    public function confirmAccount(User $user, string $token, ValidateToken $verifyer): Response
+    public function confirmAccount(User $user, string $token, ValidateToken $checker): Response
     {
         try {
-            $verifyer->handleEmailConfirmation($token, $user);
+            $checker->handleEmailConfirmation($token, $user);
         } catch (\Exception $e) {
             $this->addFlash('danger', $e->getMessage());
 
