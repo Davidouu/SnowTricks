@@ -40,6 +40,9 @@ security:
   access_control:
     # - { path: ^/admin, roles: ROLE_ADMIN }
     # - { path: ^/profile, roles: ROLE_USER }
+    - { path: ^/nouvelle-categorie, roles: ROLE_USER }
+    - { path: ^/modifier-categorie/[1-9]+, roles: ROLE_USER }
+    - { path: ^/supprimer-categorie/[1-9]+, roles: ROLE_USER }
 
 when@test:
   security:
