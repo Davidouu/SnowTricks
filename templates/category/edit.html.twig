@@ -3,22 +3,22 @@
 {% block title %}Modifier la catégorie{% endblock %}
 
 {% block body %}
-<div class="mx-auto max-w-xl flex flex-col items-center justify-center mt-10">
+<div class="container">
     <h1 class="h3 text-4xl mb-6 mt-3 text-center font-bold">Modifier la catégorie</h1>
 
     <div class="w-1/2 border-solid border-2 rounded-md p-4">
         {{ form_start(form) }}
             <div class="mb-2">
-                {{ form_label(form.name, 'Nom de la catégorie', { 'label_attr' : { 'class' : 'block text-gray-700 text-sm mb-1'}}) }}
+                {{ form_label(form.name, 'Nom de la catégorie', { 'label_attr' : { 'class' : 'label-primary'}}) }}
                 {{ form_widget(form.name, 
-                { 'attr': {'class': 'form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none',
+                { 'attr': {'class': 'input-primary',
                 'placeholder': 'Flip'} }) }}
                 {% if form_errors(form.name) %}
                     <div class="text-red-500 text-sm">{{ form_errors(form.name) }}</div>
                 {% endif %}
             </div>
 
-            <input class="mt-4 pt-2 pb-2 pl-4 pr-4 bg-blue-200 rounded-lg hover:cursor-pointer" type="submit" value="Modifier" />
+            <input class="submit-primary" type="submit" value="Modifier" />
         {{ form_end(form) }}
     </div>
 </div>

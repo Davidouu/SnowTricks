@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Lables */
+
+.label-primary {
+  @apply block text-gray-700 text-sm mb-1;
+}
+
+/* Inputs */
+
+.input-primary {
+  @apply form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none;
+}
+
+.submit-primary {
+  @apply mt-4 pt-2 pb-2 pl-4 pr-4 bg-blue-200 rounded-lg hover:cursor-pointer;
+}
+
+/* Structure */
+
+.container {
+  @apply mx-auto max-w-xl flex flex-col items-center justify-center mt-10;
+}
