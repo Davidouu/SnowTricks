@@ -42,7 +42,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    private ?bool $isvalidate = null;
+    private ?bool $isValidate = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(['message' => 'Vous devez inscrire un prénom.'])]
@@ -53,21 +53,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $creationdate = null;
+    private ?\DateTimeInterface $creationDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $resettoken = null;
+    private ?string $resetToken = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $resettokenexpiration = null;
+    private ?\DateTimeInterface $resetTokenExpiration = null;
 
     public function __construct()
     {
-        $this->creationdate = new \DateTime();
-        $this->isvalidate = false;
+        $this->creationDate = new \DateTime();
+        $this->isValidate = false;
     }
 
     public function getId(): ?int
@@ -154,12 +154,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isValidate(): ?bool
     {
-        return $this->isvalidate;
+        return $this->isValidate;
     }
 
     public function setIsValidate(bool $isvalidate): static
     {
-        $this->isvalidate = $isvalidate;
+        $this->isValidate = $isvalidate;
 
         return $this;
     }
@@ -190,12 +190,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCreationdate(): ?\DateTimeInterface
     {
-        return $this->creationdate;
+        return $this->creationDate;
     }
 
     public function setCreationdate(\DateTimeInterface $creationdate): static
     {
-        $this->creationdate = $creationdate;
+        $this->creationDate = $creationdate;
 
         return $this;
     }
@@ -214,24 +214,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getResettoken(): ?string
     {
-        return $this->resettoken;
+        return $this->resetToken;
     }
 
     public function setResettoken(?string $resettoken): static
     {
-        $this->resettoken = $resettoken;
+        $this->resetToken = $resettoken;
 
         return $this;
     }
 
     public function getResettokenexpiration(): ?\DateTimeInterface
     {
-        return $this->resettokenexpiration;
+        return $this->resetTokenExpiration;
     }
 
     public function setResettokenexpiration(?\DateTimeInterface $resettokenexpiration): static
     {
-        $this->resettokenexpiration = $resettokenexpiration;
+        $this->resetTokenExpiration = $resettokenexpiration;
 
         return $this;
     }
