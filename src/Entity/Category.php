@@ -25,7 +25,7 @@ class Category
 
     #[ORM\ManyToOne(inversedBy: 'category')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Tricks $tricks = null;
+    private ?Trick $tricks = null;
 
     public function getId(): ?int
     {
@@ -68,12 +68,12 @@ class Category
         return $this;
     }
 
-    public function getTricks(): ?Tricks
+    public function getTricks(): ?Trick
     {
         return $this->tricks;
     }
 
-    public function setTricks(?Tricks $tricks): static
+    public function setTricks(?Trick $tricks): static
     {
         $this->tricks = $tricks;
 

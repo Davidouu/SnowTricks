@@ -17,7 +17,7 @@ class Image
     private ?string $url = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
-    private ?Tricks $tricks = null;
+    private ?Trick $tricks = null;
 
     public function getId(): ?int
     {
@@ -36,12 +36,12 @@ class Image
         return $this;
     }
 
-    public function getTricks(): ?Tricks
+    public function getTricks(): ?Trick
     {
         return $this->tricks;
     }
 
-    public function setTricks(?Tricks $tricks): static
+    public function setTricks(?Trick $tricks): static
     {
         $this->tricks = $tricks;
 
