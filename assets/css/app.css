@@ -11,7 +11,7 @@
 /* Inputs */
 
 .input-primary {
-  @apply form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none;
+  @apply border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none;
 }
 
 .submit-primary {
