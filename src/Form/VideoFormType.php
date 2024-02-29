@@ -13,7 +13,16 @@ class VideoFormType extends AbstractType
     {
         $builder
             ->add('url', null, [
-                'label' => 'URL'
+                'label' => 'URL',
+                'label_attr' => [
+                    'class' => 'lock text-sm text-gray-500 dark:text-gray-300',
+                ],
+                'mapped' => true,
+                'required' => false,
+                'attr' => [
+                    'class' => 'input-primary',
+                    'placeholder' => 'https://www.youtube.com/embed/...',
+                ],
             ])
         ;
     }
