@@ -13,7 +13,7 @@ class ValidateToken
 
     public function handleEmailConfirmation(string $token, User $user): void
     {
-        if (!$user && $user->getToken() !== $token) {
+        if (!$user || $user->getToken() !== $token) {
             throw new \Exception("Votre lien de validation n'est pas valide.");
             
         }
@@ -25,7 +25,7 @@ class ValidateToken
 
     public function handlePasswordReset(string $token, User $user): void
     {
-        if (!$user && $user->getResetToken() !== $token && $user->getResetTokenExpiration() < new \DateTime()){
+        if (!$user || $user->getResetToken() !== $token || $user->getResetTokenExpiration() < new \DateTime()){
             throw new \Exception("Votre lien de réinitialisation n'est pas valide.");
         }
     }
