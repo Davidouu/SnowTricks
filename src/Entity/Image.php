@@ -14,7 +14,7 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $url = null;
+    private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Trick $tricks = null;
@@ -24,14 +24,14 @@ class Image
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getName(): ?string
     {
-        return $this->url;
+        return $this->name;
     }
 
-    public function setUrl(string $url): static
+    public function setName(string $name): static
     {
-        $this->url = $url;
+        $this->name = $name;
 
         return $this;
     }
