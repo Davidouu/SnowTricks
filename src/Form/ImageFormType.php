@@ -13,20 +13,24 @@ class ImageFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('url', FileType::class, [
-                'label' => 'Image (JPG, PNG, GIF)',
-                'mapped' => false,
+            ->add('file', FileType::class, [
+                'label' => 'Image',
+                'label_attr' => [
+                    'class' => 'lock text-sm text-gray-500 dark:text-gray-300',
+                ],
+                'mapped' => true,
                 'required' => false,
+                'multiple' => false,
                 'attr' => [
                     'accept' => 'image/*',
+                    'class' => 'file-primary',
                 ],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => Image::class,
-        ]);
+        $resolver->setDefaults([]);
     }
 }
