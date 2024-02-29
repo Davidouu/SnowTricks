@@ -25,26 +25,26 @@ class Trick
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'tricks')]
+    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'tricks', cascade: ['persist'])]
     private Collection $images;
 
-    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'tricks')]
+    #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'tricks', cascade: ['persist'])]
     private Collection $videos;
-
-    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'tricks')]
-    private Collection $category;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $publishDate = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $editDate = null;
+
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
+    private Collection $categories;
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->videos = new ArrayCollection();
-        $this->category = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,36 +148,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategory(): Collection
-    {
-        return $this->category;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
-            $category->setTricks($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        if ($this->category->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getTricks() === $this) {
-                $category->setTricks(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getPublishDate(): ?\DateTimeInterface
     {
         return $this->publishDate;
@@ -198,6 +168,30 @@ class Trick
     public function setEditDate(\DateTimeInterface $editDate): static
     {
         $this->editDate = $editDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }
