@@ -110,10 +110,10 @@ class SecurityController extends AbstractController
             $user = new User;
 
             // On récupère les données du formulaire
-            $registrationForm = $form->getData();
+            $resetForm = $form->getData();
 
             // On récupère l'email
-            $email = $registrationForm['email'];
+            $email = $resetForm['email'];
 
             // On recherche l'utilisateur par son email
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
@@ -166,13 +166,13 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les données du formulaire
-            $registrationForm = $form->getData();
+            $resetPasswordForm = $form->getData();
 
             // On récupère le mot de passe en clair
-            $plainPassword = $registrationForm['password'];
+            $plainPassword = $resetPasswordForm['password'];
 
             // On récupère la confirmation du mot de passe en clair
-            $confirmPassword = $registrationForm['confirm_password'];
+            $confirmPassword = $resetPasswordForm['confirm_password'];
 
             // On vérifie que les deux mots de passe sont identiques
             if ($plainPassword !== $confirmPassword) {
