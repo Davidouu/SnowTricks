@@ -23,10 +23,6 @@ class Category
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $editDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'category')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Trick $tricks = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -64,18 +60,6 @@ class Category
     public function setEditDate(?\DateTimeInterface $editDate): static
     {
         $this->editDate = $editDate;
-
-        return $this;
-    }
-
-    public function getTricks(): ?Trick
-    {
-        return $this->tricks;
-    }
-
-    public function setTricks(?Trick $tricks): static
-    {
-        $this->tricks = $tricks;
 
         return $this;
     }
