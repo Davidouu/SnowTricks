@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Image;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ImageFormType extends AbstractType
 {
@@ -25,12 +25,25 @@ class ImageFormType extends AbstractType
                     'accept' => 'image/*',
                     'class' => 'file-primary',
                 ],
+                'constraints' => [
+                    new Assert\Image([
+                        'maxSize' => '5M',
+                        'maxSizeMessage' => 'Le fichier est trop lourd ({{ size }} {{ suffix }}). La taille maximum autorisée est de {{ limit }} {{ suffix }}.',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Le fichier n\'est pas une image valide.',
+                    ]),
+                ],
             ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([]);
+        $resolver->setDefaults([
+        ]);
     }
 }
