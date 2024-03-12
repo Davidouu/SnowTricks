@@ -3,7 +3,7 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-<div class="mx-auto max-w-xl flex flex-col items-center justify-center mt-10">
+<div class="container">
     <h1 class="h3 text-4xl mb-6 mt-3 text-center font-bold">Connexion</h1>
 
     <div class="w-1/2 border-solid border-2 rounded-md p-4">
@@ -14,28 +14,29 @@
         <form method="post">
             {% if app.user %}
                 <div class="mb-3">
-                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}, 
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
                 </div>
             {% endif %}
             <input type="hidden" name="_csrf_token"
             value="{{ csrf_token('authenticate') }}">
 
             <div class="mb-2">
-                <label class="block text-gray-700 text-sm mb-1" for="inputUsername">Nom d'utilisateur</label>
+                <label class="label-primary" for="inputUsername">Nom d'utilisateur</label>
                 <input placeholder="Nom d'utilisateur" type="text" 
                 value="{{ last_username }}" name="username" id="inputUsername" 
-                class="form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none" 
+                class="input-primary" 
                 autocomplete="username" required autofocus>
             </div>
 
             <div class="mb-2">
-                <label class="block text-gray-700 text-sm mb-1" for="inputPassword">Mot de passe</label>
+                <label class="label-primary" for="inputPassword">Mot de passe</label>
                 <input placeholder="************" type="password" 
                 name="password" id="inputPassword" 
-                class="form-control border-t-0 border-l-0 border-r-0 border-solid border-2 w-full p-1 text-center focus:border-blue-200 focus:outline-none" 
+                class="input-primary" 
                 autocomplete="current-password" required>
             </div>
-            <input class="mt-4 pt-2 pb-2 pl-4 pr-4 bg-blue-200 rounded-lg hover:cursor-pointer" type="submit" value="S'inscrire" />
+            <input class="submit-primary" type="submit" value="Se connecter" />
         </form>
 
         <a href="{{ url('app_forgot_password') }}">Mot de passe oublié ?</a>

@@ -102,6 +102,7 @@
                     <div class="flex flex-wrap justify-center mt-6 -mx-4">
                         {% if app.user %}
                         <a href="{{ url('app_logout') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Deconnexion </a>
+                        <a href="{{ url('app_new_category') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Nouvelle catégorie </a>
                         {% else %}
                         <a href="{{ url('app_login') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Connexion </a>
                         <a href="{{ url('app_register') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Inscription </a>
