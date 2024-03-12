@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[UniqueEntity(fields: 'name', message: 'Ce tricks existe déjà.')]
 class Trick
 {
     #[ORM\Id]
@@ -17,12 +20,14 @@ class Trick
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire un nom de trick.'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(['message' => 'Vous devez inscrire une description.'])]
     private ?string $description = null;
 
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'tricks', cascade: ['persist'])]
