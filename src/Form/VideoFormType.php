@@ -6,6 +6,7 @@ use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class VideoFormType extends AbstractType
 {
@@ -22,6 +23,7 @@ class VideoFormType extends AbstractType
                 'attr' => [
                     'class' => 'input-primary',
                     'placeholder' => 'https://www.youtube.com/embed/...',
+                    'maxlength' => 10000,
                 ],
             ])
         ;
