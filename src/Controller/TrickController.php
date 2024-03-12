@@ -12,11 +12,12 @@ use App\Service\FileUploader;
 use App\Entity\Trick;
 use App\Entity\Image;
 use App\Form\TricksFormType;
+use App\Service\VideosService;
 
 class TrickController extends AbstractController
 {
     #[Route(path: '/nouveau-trick', name: 'app_tricks_new')]
-    public function new(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function new(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager, SluggerInterface $slugger, VideosService $videosService): Response
     {
         $tricks = new Trick();
 
@@ -45,6 +46,20 @@ class TrickController extends AbstractController
                 $tricks->addImage($imageObject);
 
                 $tricks->getImages()->removeElement($image);
+            }
+
+            // On récupère les vidéos
+            $videos = $tricksForm->getVideos();
+            
+            // On récupère l'url de la vidéo
+            foreach ($videos as $video) {
+                $Embedurl = $video->getUrl();
+
+                if (preg_match('/<iframe/', $Embedurl)) {
+                    $url = $videosService->getEmbedLink($Embedurl);
+                }
+
+                $video->setUrl($url);
             }
 
             $tricks->setPublishDate(new \DateTime('now'));
