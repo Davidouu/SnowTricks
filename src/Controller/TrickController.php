@@ -78,4 +78,30 @@ class TrickController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route(path: '/trick/{slug}', name: 'app_trick_show')]
+    public function show(Trick $trick): Response
+    {
+        $trickImages = $trick->getImages();
+        $tricksVideos = $trick->getVideos();
+
+        $tricksPreview = [];
+
+        foreach ($trickImages as $image) {
+            array_push($tricksPreview, $image->getName());
+        }
+
+        foreach ($tricksVideos as $video) {
+            array_push($tricksPreview, $video->getUrl());
+        }
+
+        if (empty($tricksPreview)) {
+            array_push($tricksPreview, 'default-image.jpg');
+        }
+
+        return $this->render('tricks/show.html.twig', [
+            'trick' => $trick,
+            'tricksPreview' => $tricksPreview
+        ]);
+    }
 }
