@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }}{% endblock %}
+
+{% block body %}
+<div class="content-container">
+    <div class="text-left">
+        <span><a href="{{ path('app_home') }}" class="hover:text-blue-600 duration-300 font-bold">Retour à l'accueil</a></span>
+    </div>
+    <div class="text-left">
+        <span>Publié le {{ trick.publishDate|date('d/m/Y') }}</span>
+    </div>
+    <div class="text-left">
+        {% if trick.categories|length > 0 %}
+            <span>Catégories : </span>
+            {% for categorie in trick.categories %}
+                <span>{{ categorie.name }}</span>
+                {% if loop.last == false %}
+                    <span>|</span>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="h-screen flex flex-col justify-center items-center pt-4 pb-14">
+
+            <div class="w-full h-full relative" x-data="{ activeSlide: 0, slides: {{ tricksPreview|json_encode }} }">
+                <!-- Slides -->
+                <template x-for="(slide, index) in slides" :key="index">
+                    <div x-show="activeSlide === index" class="h-full font-bold text-5xl flex items-center rounded-lg" x-effect="console.log(index)">
+                        <!-- If slide contains '/embed/', create an iframe, otherwise create an image -->
+                        <template x-if="slide.includes('/embed/')">
+                            <iframe class="w-full h-full rounded-lg" :src="slide" frameborder="0" allowfullscreen></iframe>
+                        </template>
+                        <template x-if="!slide.includes('/embed/')">
+                            <img class="w-full h-full object-cover object-center rounded-lg" :src="'{{ asset('tricks_images/') }}' + slide" alt="slide">
+                        </template>
+                    </div>
+                </template>
+
+            {% if tricksPreview|length > 1 %}
+            
+            <!-- Prev/Next Arrows -->
+            <div class="absolute inset-0 flex">
+                <div class="flex items-end justify-start w-1/2">
+                    <button 
+                    class="text-blue-600 font-bold hover:text-blue-300 duration-300 text-5xl w-max h-max translate-y-full"
+                    x-on:click="activeSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1">
+                    &#8592;
+                    </button>
+                </div>
+                <div class="flex items-end justify-end w-1/2">
+                    <button 
+                    class="text-blue-600 font-bold hover:text-blue-300 duration-300 text-5xl w-max h-max translate-y-full"
+                    x-on:click="activeSlide = activeSlide === slides.length - 1 ? 0 : activeSlide + 1">
+                    &#8594;
+                    </button>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="absolute w-full flex items-center justify-center px-14">
+                <template x-for="(slide, index) in slides" :key="index">
+                    <button
+                    class="flex-1 w-4 h-2 mt-4 mx-2 mb-0 rounded-full overflow-hidden transition-colors duration-300 ease-out hover:bg-blue-600 hover:shadow-lg max-w-16"
+                    :class="{ 
+                        'bg-blue-600': activeSlide === index,
+                        'bg-blue-300': activeSlide !== index 
+                    }" 
+                    x-on:click="activeSlide = index"
+                    ></button>
+                </template>
+            </div>
+
+            {% endif %}
+        </div>
+    </div>
+
+    <h1 class="text-4xl font-bold text-center">{{ trick.name }}</h1>
+
+    <div class="flex justify-center items-center">
+        <p class="text-lg text-center py-14">{{ trick.description }}</p>
+    </div>
+</div> 
+{% endblock %}
