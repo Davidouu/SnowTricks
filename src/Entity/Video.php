@@ -18,7 +18,7 @@ class Video
     #[Assert\NotBlank(['message' => 'Vous devez inscrire un url.'])]
     private ?string $url = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Videos')]
+    #[ORM\ManyToOne(inversedBy: 'videos')]
     private ?Trick $tricks = null;
 
     public function getId(): ?int
