@@ -63,6 +63,7 @@ class TrickController extends AbstractController
             }
 
             $tricks->setPublishDate(new \DateTime('now'));
+            $tricks->setEditDate(new \DateTime('now'));
             $tricks->setSlug($slugger->slug($tricks->getName(), '-'));
 
             $entityManager->persist($tricks);
@@ -70,8 +71,7 @@ class TrickController extends AbstractController
 
             $this->addFlash('success', 'Le trick a bien été ajouté !');
 
-            // return $this->redirectToRoute('app_home');
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('tricks/new.html.twig', [
