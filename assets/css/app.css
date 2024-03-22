@@ -35,3 +35,7 @@
 .container {
   @apply mx-auto max-w-xl flex flex-col items-center justify-center mt-10;
 }
+
+.content-container {
+  @apply mx-auto max-w-7xl flex flex-col justify-center mt-10;
+}

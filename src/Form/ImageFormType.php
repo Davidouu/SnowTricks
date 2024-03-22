@@ -32,7 +32,6 @@ class ImageFormType extends AbstractType
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
-                            'image/gif',
                         ],
                         'mimeTypesMessage' => 'Le fichier n\'est pas une image valide.',
                     ]),

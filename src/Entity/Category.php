@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,6 +25,9 @@ class Category
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $editDate = null;
+
+    #[ORM\ManyToMany(targetEntity: Trick::class, mappedBy: 'categories')]
+    private Collection $tricks;
 
     public function getId(): ?int
     {
@@ -62,6 +66,30 @@ class Category
     public function setEditDate(?\DateTimeInterface $editDate): static
     {
         $this->editDate = $editDate;
+
+        return $this;
+    }
+
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
+
+    public function addTrick(Trick $trick): static
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks[] = $trick;
+            $trick->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrick(Trick $trick): static
+    {
+        if ($this->tricks->removeElement($trick)) {
+            $trick->removeCategory($this);
+        }
 
         return $this;
     }
