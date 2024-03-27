@@ -45,32 +45,7 @@ function addImageFormToCollection(e) {
     const div = document.createElement("div");
     const image = document.createElement("img");
 
-    div.classList.add(
-      "w-1/5",
-      "mr-2",
-      "mb-2",
-      "object-cover",
-      "h-max",
-      "tricks_form_images_" + collectionHolder.dataset.index,
-      "tricks_form_images",
-      "relative",
-      "hover:cursor-pointer",
-      "hover:after:content-['Supprimer']",
-      "hover:after:bg-red-500/75",
-      "hover:after:text-white",
-      "hover:after:absolute",
-      "hover:after:top-0",
-      "hover:after:left-0",
-      "hover:after:h-full",
-      "hover:after:w-full",
-      "hover:after:z-10",
-      "hover:after:px-2",
-      "hover:after:py-1",
-      "hover:after:rounded",
-      "hover:after:flex",
-      "hover:after:items-center",
-      "hover:after:justify-center"
-    );
+    div.classList.add("preview-images", "tricks_form_images", "tricks_form_images_" + collectionHolder.dataset.index);
 
     div.dataset.index = collectionHolder.dataset.index;
 
@@ -132,31 +107,7 @@ function addVideoFormToCollection(e) {
       div.appendChild(iframe);
     }
 
-    div.classList.add(
-      "w-1/2",
-      "mr-2",
-      "mb-2",
-      "h-max",
-      "tricks_form_videos_" + collectionHolder.dataset.index + "_url",
-      "tricks_form_videos",
-      "relative",
-      "hover:cursor-pointer",
-      "hover:after:content-['Supprimer']",
-      "hover:after:bg-red-500/75",
-      "hover:after:text-white",
-      "hover:after:absolute",
-      "hover:after:top-0",
-      "hover:after:left-0",
-      "hover:after:h-full",
-      "hover:after:w-full",
-      "hover:after:z-10",
-      "hover:after:px-2",
-      "hover:after:py-1",
-      "hover:after:rounded",
-      "hover:after:flex",
-      "hover:after:items-center",
-      "hover:after:justify-center"
-    );
+    div.classList.add("tricks_form_videos_" + collectionHolder.dataset.index, "tricks_form_videos", "preview-videos");
 
     div.dataset.index = collectionHolder.dataset.index;
 
@@ -187,9 +138,23 @@ function deleteImageFormToCollection(e) {
 function deleteVideoFormToCollection(e) {
   let index = e.target.dataset.index;
 
-  let items = document.querySelectorAll(".tricks_form_videos_" + index + "_url");
+  let items = document.querySelectorAll(".tricks_form_videos_" + index, "#tricks_form_videos_" + index);
+
+  console.log(items);
 
   items.forEach((item) => {
     item.remove();
   });
 }
+
+// // // // // // //
+// Au click sur la preview de l'image ou de la vidéo, on supprime l'élément sur le formulaire d'édition
+// // // // // // //
+
+document.querySelectorAll(".tricks_form_images_edit").forEach((btn) => {
+  btn.addEventListener("click", deleteImageFormToCollection);
+});
+
+document.querySelectorAll(".tricks_form_videos_edit").forEach((btn) => {
+  btn.addEventListener("click", deleteVideoFormToCollection);
+});
