@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau trick{% endblock %}
+{% block title %}Modifier{% endblock %}
 
 {% block body %}
 <div class="container">
-    <h1 class="h3 text-4xl mb-6 mt-3 text-center font-bold">Nouveau trick</h1>
+    <h1 class="h3 text-4xl mb-6 mt-3 text-center font-bold">Modifier</h1>
     
     <div class="w-full border-solid border-2 rounded-md p-4">
-    {{ form_start(form) }}
+        {{ form_start(form) }}
             <div class="mb-2">
                 {{ form_label(form.name, 'Nom du tricks', { 'label_attr' : { 'class' : 'label-primary'}}) }}
                 {{ form_widget(form.name, 
@@ -26,7 +26,7 @@
                 {% endif %}
             </div>
             <div class="mb-2">
-                {{ form_label(form.categories, 'Catégories', { 'label_attr' : { 'class' : ''}}) }}
+                {{ form_label(form.categories, 'Catégories', { 'label_attr' : { 'class' : 'label-primary'}}) }}
                 {{ form_widget(form.categories, 
                 { 'attr': {'class': 'mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-800 focus:border-gray-800 sm:text-sm' }}) }}
                 {% if form_errors(form.categories) %}
@@ -34,42 +34,58 @@
                 {% endif %}
             </div>
             {# Images #}
+                
+            {# Preview #}
             <div class="mb-2">
                 <div class="image-preview flex">
+                    {% for image in form.images.children %}
+                        <div class="tricks_form_images preview-images tricks_form_images_edit {{ image.vars.id }}" data-index={{ loop.index0 }}>
+                            <img src="{{ asset('tricks_images/' ~ image.vars.value.name) }}" alt="{{ image.vars.value.name }}" class="image-preview-item-image">
+                        </div>
+                    {% endfor %}
                 </div>
+                {# Inputs #}
                 <ul class="images"
                 data-index="{{ form.images|length > 0 ? form.images|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+                    <div class="hidden">
+                        {% for image in form.images.children %}
+                            {{ form_widget(image, { 'attr': {'class': image.vars.id } }) }}
+                            <p class="text-sm {{image.vars.id}}">{{ image.vars.value.name }}</p>
+                        {% endfor %}
+                        {% if form.images.children is empty %}
+                            {{ form_row(form.images) }}
+                        {% endif %}
+                    </div>
                 </ul>
-                {% for image in form.images.children %}
-                    {{ form_widget(image, { 'attr': {'class': image.vars.id } }) }}
-                {% endfor %}
+                {# Ajout #}
                 <button type="button" class="add_image_item button-primary add-images" data-collection-holder-class="images">Ajouter une image</button>
             </div>
-            <div class="mb-2 hidden">
-                {% if form.images.children is empty %}
-                    {{ form_row(form.images) }}
-                {% endif %}
-            </div>
+                
             {# Vidéos #}
             <div class="mb-2">
                 <div class="video-preview flex flex-wrap">
+                    {% for video in form.videos.children %}
+                        <div class="tricks_form_videos preview-videos tricks_form_videos_edit {{ video.vars.id }}" data-index={{ loop.index0 }}>
+                            <iframe class="w-full h-full" src="{{ video.vars.value.url }}" title="{{ video.vars.value.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    {% endfor %}
                 </div>
                 <ul class="videos"
                 data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}">
+                    <div class="hidden">
+                        {% for video in form.videos.children %}
+                            {{ form_widget(video, { 'attr': {'class': video.vars.id } }) }}
+                        {% endfor %}
+                        {% if form.videos.children is empty %}
+                            {{ form_row(form.videos) }}
+                        {% endif %}
+                    </div>
                 </ul>
-                {% for video in form.videos.children %}
-                    {{ form_widget(video, { 'attr': {'class': video.vars.id } }) }}
-                {% endfor %}
                 <button type="button" class="add_video_item button-primary add-videos" data-collection-holder-class="videos">Ajouter une vidéos</button>
             </div>
-            <div class="mb-2 hidden">
-                {% if form.videos.children is empty %}
-                    {{ form_row(form.videos) }}
-                {% endif %}
-            </div>
-            <input class="submit-primary" type="submit" value="Créer" />
+            <input class="submit-primary" type="submit" value="Modifier" />
         {{ form_end(form) }}
     </div>
 </div>

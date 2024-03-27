@@ -21,11 +21,13 @@ class TricksFormType extends AbstractType
                 'entry_type' => ImageFormType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'allow_delete' => true,
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoFormType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'allow_delete' => true,
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,

@@ -80,5 +80,16 @@
     <div class="flex justify-center items-center">
         <p class="text-lg text-center py-14">{{ trick.description }}</p>
     </div>
+
+    {% if app.user %}
+        <div class="flex justify-end items-center">
+            <div class="flex justify-end items-center">
+                <a href="{{ path('app_tricks_edit', {'slug': trick.slug}) }}" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-300 duration-300">Modifier</a>
+            </div>
+            <div class="flex justify-end items-center">
+                <a href="{{ path('app_tricks_delete', {'slug': trick.slug}) }}" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-300 duration-300 ml-4">Supprimer</a>
+            </div>
+        </div>
+    {% endif %}
 </div> 
 {% endblock %}

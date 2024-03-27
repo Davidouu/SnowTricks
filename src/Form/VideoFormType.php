@@ -25,6 +25,7 @@ class VideoFormType extends AbstractType
                     'placeholder' => 'https://www.youtube.com/embed/...',
                     'maxlength' => 10000,
                 ],
+                'empty_data' => '',
             ])
         ;
     }

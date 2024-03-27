@@ -44,6 +44,8 @@ security:
     - { path: ^/modifier-categorie/[1-9]+, roles: ROLE_USER }
     - { path: ^/supprimer-categorie/[1-9]+, roles: ROLE_USER }
     - { path: ^/nouveau-trick, roles: ROLE_USER }
+    - { path: ^/trick/[^/]+/modifier$, roles: ROLE_USER }
+    - { path: ^/trick/[^/]+/supprimer$, roles: ROLE_USER }
 
 when@test:
   security:
