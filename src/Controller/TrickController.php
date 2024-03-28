@@ -11,8 +11,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Service\FileUploader;
 use App\Entity\Trick;
 use App\Entity\Image;
-use App\Entity\Video;
+use App\Entity\Comment;
 use App\Form\TricksFormType;
+use App\Form\CommentsFormType;
+use App\Repository\CommentRepository;
 use App\Service\VideosService;
 
 class TrickController extends AbstractController
@@ -195,8 +197,18 @@ class TrickController extends AbstractController
     }
 
     #[Route(path: '/trick/{slug}', name: 'app_trick_show')]
-    public function show(Trick $trick): Response
+    public function show(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
+        $comment = new Comment();
+
+        $commentForm = $this->createForm(CommentsFormType::class, $comment, [
+            'trickId' => $trick->getId(),
+        ])
+            ->handleRequest($request);
+
+        // Get all comments by trick id
+        $comments = $commentRepository->findBy(['trick' => $trick->getId()], ['publishDate' => 'DESC']);
+        
         $trickImages = $trick->getImages();
         $tricksVideos = $trick->getVideos();
 
@@ -216,7 +228,9 @@ class TrickController extends AbstractController
 
         return $this->render('tricks/show.html.twig', [
             'trick' => $trick,
-            'tricksPreview' => $tricksPreview
+            'tricksPreview' => $tricksPreview,
+            'form' => $commentForm,
+            'comments' => $comments
         ]);
     }
 }
