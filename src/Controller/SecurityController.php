@@ -84,7 +84,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/confirmation/{id}/{token}', name: 'app_confirm_account')]
+    #[Route(path: '/confirmation/{id}/{token}', name: 'app_confirm_account', requirements: ['id' => '\d+'])]
     public function confirmAccount(User $user, string $token, ValidateToken $checker): Response
     {
         try {
@@ -150,7 +150,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/reinitialisation-mot-de-passe/{id}/{token}', name: 'app_reset_password')]
+    #[Route(path: '/reinitialisation-mot-de-passe/{id}/{token}', name: 'app_reset_password', requirements: ['id' => '\d+'])]
     public function resetPassword(User $user, string $token, ValidateToken $checker, Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
         try {

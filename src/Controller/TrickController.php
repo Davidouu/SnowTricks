@@ -83,7 +83,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/trick/{slug}/modifier', name: 'app_tricks_edit')]
+    #[Route(path: '/trick/{slug}/modifier', name: 'app_tricks_edit', requirements: ['slug' => '[A-Za-z0-9-]+'])]
     public function edit(Trick $trick, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager, SluggerInterface $slugger, VideosService $videosService): Response
     {
         $trickImages = $trick->getImages()->toArray();
@@ -173,7 +173,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/trick/{slug}/supprimer', name: 'app_tricks_delete')]
+    #[Route(path: '/trick/{slug}/supprimer', name: 'app_tricks_delete', requirements: ['slug' => '[A-Za-z0-9-]+'])]
     public function delete(Trick $trick, EntityManagerInterface $entityManager): Response
     {
         // On supprime les images lié
@@ -196,18 +196,30 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
-    #[Route(path: '/trick/{slug}', name: 'app_trick_show')]
+    #[Route(path: '/trick/{slug}', name: 'app_trick_show', requirements: ['slug' => '[A-Za-z0-9-]+'])]
     public function show(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
         $comment = new Comment();
 
         $commentForm = $this->createForm(CommentsFormType::class, $comment, [
+            'action' => 'app_comment_new',
             'trickId' => $trick->getId(),
         ])
             ->handleRequest($request);
 
         // Get all comments by trick id
         $comments = $commentRepository->findBy(['trick' => $trick->getId()], ['publishDate' => 'DESC']);
+
+        $commentsModificationForms = [];
+        foreach ($comments as $comment) {
+            $commentModificationForm = $this->createForm(CommentsFormType::class, $comment, [
+                'action' => 'app_comment_edit',
+                'id' => ['id' => $comment->getId()],
+                'trickId' => $trick->getId(),
+            ]);
+
+            $commentsModificationForms[$comment->getId()] = $commentModificationForm->createView();
+        }
         
         $trickImages = $trick->getImages();
         $tricksVideos = $trick->getVideos();
@@ -230,7 +242,8 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'tricksPreview' => $tricksPreview,
             'form' => $commentForm,
-            'comments' => $comments
+            'comments' => $comments,
+            'commentsModificationForms' => $commentsModificationForms,
         ]);
     }
 }

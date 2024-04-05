@@ -56,6 +56,8 @@
                 <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']" class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:bg-transparent md:w-auto md:opacity-100 md:translate-x-0 md:flex md:items-center">
                     <div class="flex flex-col md:flex-row md:mx-6">
                         {% if app.user %}
+                        <a class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-blue-500 md:mx-4 md:my-0" href="{{ url('app_tricks_new') }}">Nouveau Tricks</a>
+                        <a class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-blue-500 md:mx-4 md:my-0" href="{{ url('app_new_category') }}">Nouvelle catégorie</a>
                         <a class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-blue-500 md:mx-4 md:my-0" href="{{ url('app_logout') }}">Deconnexion</a>
                         {% else %}
                         <a class="my-2 text-gray-700 transition-colors duration-300 transform hover:text-blue-500 md:mx-4 md:my-0" href="{{ url('app_login') }}">Connexion</a>
@@ -101,8 +103,9 @@
 
                     <div class="flex flex-wrap justify-center mt-6 -mx-4">
                         {% if app.user %}
-                        <a href="{{ url('app_logout') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Deconnexion </a>
+                        <a href="{{ url('app_tricks_new') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit">Nouveau Tricks</a>
                         <a href="{{ url('app_new_category') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Nouvelle catégorie </a>
+                        <a href="{{ url('app_logout') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Deconnexion </a>
                         {% else %}
                         <a href="{{ url('app_login') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Connexion </a>
                         <a href="{{ url('app_register') }}" class="mx-4 text-sm text-gray-600 transition-colors duration-300 hover:text-blue-500" aria-label="Reddit"> Inscription </a>
