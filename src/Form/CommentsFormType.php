@@ -28,7 +28,7 @@ class CommentsFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->setAction($this->generateUrl('app_comment_new'))
+            ->setAction($this->generateUrl($options['action'], $options['id'] ?? []))
             ->setMethod('POST')
             ->add('message', TextareaType::class, [
                 'label' => 'Comment',
@@ -38,14 +38,14 @@ class CommentsFormType extends AbstractType
                 'data' => $options['trickId'],
             ])
             ->add('user', HiddenType::class, [
-                'data' => $this->security->getUser()->getId(),
+                'data' => $this->security->getUser()?->getId() ?? null,
             ]);
             $builder->get('user')->addModelTransformer(new CallbackTransformer(
-                function ($user): int {
+                function ($user): int|null {
                     return $user;
                 },
                 function ($userId): User {
-                    return $this->entityManager->getRepository(User::class)->find($userId);
+                    return $this->entityManager->getReference(User::class, $userId);
                 }
             ));
             $builder->get('trick')->addModelTransformer(new CallbackTransformer(
@@ -53,7 +53,7 @@ class CommentsFormType extends AbstractType
                     return $trick;
                 },
                 function ($trickId): Trick {
-                    return $this->entityManager->getRepository(Trick::class)->find($trickId);
+                    return $this->entityManager->getReference(Trick::class, $trickId);
                 }
             ));
     }
@@ -63,6 +63,7 @@ class CommentsFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Comment::class,
             'trickId' => null,
+            'id' => null,
         ]);
     }
 
