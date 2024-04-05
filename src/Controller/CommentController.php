@@ -18,12 +18,12 @@ class CommentController extends AbstractController
     {
         $comment = new Comment();
 
-        $form = $this->createForm(CommentsFormType::class, $comment)
+        $form = $this->createForm(CommentsFormType::class, $comment, ['action' => 'app_comment_new'])
             ->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             $commentForm = $form->getData();
+
 
             $comment->setMessage($commentForm->getMessage());
             $comment->setPublishDate(new \DateTime());
@@ -32,6 +32,42 @@ class CommentController extends AbstractController
 
             $entityManager->persist($comment);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Le commentaire a bien été ajouté.');
+
+            return $this->redirectToRoute('app_trick_show', ['slug' => $commentForm->getTrick()->getSlug()]);
+        }
+    }
+
+    #[Route(path: '/comment/{id}/delete', name: 'app_comment_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function delete(Comment $comment, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le commentaire a bien été supprimé.');
+
+        return $this->redirectToRoute('app_trick_show', ['slug' => $comment->getTrick()->getSlug()]);
+    }
+
+    #[Route(path: '/comment/{id}/edit', name: 'app_comment_edit', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function edit(Comment $comment, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(
+            CommentsFormType::class,
+            $comment, ['action' => 'app_comment_edit', 'id' => ['id' => $comment->getId()]]
+            )
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $commentForm = $form->getData();
+
+            $comment->setMessage($commentForm->getMessage());
+            $comment->setPublishDate(new \DateTime());
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le commentaire a bien été modifié.');
 
             return $this->redirectToRoute('app_trick_show', ['slug' => $commentForm->getTrick()->getSlug()]);
         }
