@@ -6,7 +6,7 @@
 <div class="content-container">
     <div class="flex flex-row justify-center flex-wrap gap-10 px-10">
         {% for trick in tricks %}
-            <div class="w-full max-w-xs overflow-hidden bg-white rounded-lg shadow-lg">
+            <div class="w-full max-w-xs overflow-hidden bg-white rounded-lg shadow-lg relative">
                 <a href="{{ path('app_trick_show', {slug: trick.slug}) }}">
                     <img class="object-cover w-full h-56"  alt="{{ trick.name }}" 
                     src="{{ trick.images is empty ? asset('tricks_images/' ~ 'default-image.jpg') : asset('tricks_images/' ~ trick.images[0].name) }}">
@@ -22,6 +22,13 @@
                     <a href="{{ path('app_trick_show', {slug: trick.slug}) }}" class="block text-xl font-bold text-gray-800 hover:opacity-70 duration-300" tabindex="0" role="link">{{ trick.name }}</a>
                     <span class="text-sm text-gray-700 w-4/5 block mx-auto">{{ trick.description|length > 50 ? trick.description|slice(0, 100) ~ '...' : trick.description }}</span>
                 </div>
+
+                {% if app.user %}
+                    <div class="flex justify-around items-center pb-5 absolute right-4 top-4">
+                        <a href="{{ path('app_tricks_edit', {'slug': trick.slug}) }}" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-300 duration-300">Modifier</a>
+                        <a href="{{ path('app_tricks_delete', {'slug': trick.slug}) }}" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-300 duration-300 ml-4">Supprimer</a>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
