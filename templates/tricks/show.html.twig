@@ -14,7 +14,7 @@
         {% if trick.categories|length > 0 %}
             <span>Catégories : </span>
             {% for categorie in trick.categories %}
-                <span>{{ categorie.name }}</span>
+                <a href="{{ path('app_edit_category', {'id': categorie.id}) }}" class="hover:text-blue-600 duration-300">{{ categorie.name }}</a>
                 {% if loop.last == false %}
                     <span>|</span>
                 {% endif %}
@@ -82,17 +82,6 @@
     </div>
 
     {% if app.user %}
-        <div class="flex justify-end items-center">
-            <div class="flex justify-end items-center">
-                <a href="{{ path('app_tricks_edit', {'slug': trick.slug}) }}" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-300 duration-300">Modifier</a>
-            </div>
-            <div class="flex justify-end items-center">
-                <a href="{{ path('app_tricks_delete', {'slug': trick.slug}) }}" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-300 duration-300 ml-4">Supprimer</a>
-            </div>
-        </div>
-    {% endif %}
-
-    {% if app.user %}
         {% include 'comments/form.html.twig' %}
     {% endif %}
 
@@ -103,8 +92,24 @@
                 <p class="mt-2 text-sm text-gray-600">{{ comment.message }}</p>
 
                 <div class="flex mt-4">
-                    <a href="#" class="text-lg font-medium text-blue-600" tabindex="0" role="link">{{ comment.user.username }}</a>
+                    <p class="text-lg font-medium text-blue-600" tabindex="0" role="link">{{ comment.user.firstname }} {{ comment.user.lastname }}</p>
                 </div>
+                {% if app.user and app.user.id == comment.user.id %}
+                <div x-data="{ show: false }">
+                    <div class="form-modif" x-show="show">
+                        {{ form_start(commentsModificationForms[comment.id]) }}
+                        {{ form_widget(commentsModificationForms[comment.id].message, 
+                        { 'attr': {'class': 'block mt-2 w-full rounded-lg border border-gray-200 bg-white px-4 h-32 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40',
+                        'placeholder': ''} }) }}
+                        {% if form_errors(commentsModificationForms[comment.id].message) %}
+                            <div class="text-red-500 text-sm">{{ form_errors(commentsModificationForms[comment.id].message) }}</div>
+                        {% endif %}
+                        <button type="submit" class="submit-primary float-right">Modifier</button>
+                    {{ form_end(commentsModificationForms[comment.id]) }}
+                    </div>
+                        <button x-show="!show" @click="show = true" class="submit-primary float-right">Modifier</button>
+                    </div>
+                {% endif %}
             </div>
         {% endfor %}
     {% endif %}
