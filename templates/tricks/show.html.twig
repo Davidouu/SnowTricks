@@ -112,6 +112,15 @@
                 {% endif %}
             </div>
         {% endfor %}
+
+        <div class="flex justify-end gap-x-4">
+            {% if page > 1 %}
+                <a href="{{ path('app_trick_show', {page: page - 1, slug: trick.slug}) }}" class="button-primary">Commentaires précédents</a>
+            {% endif %}
+            {% if page < maxPages %}
+                <a href="{{ path('app_trick_show', {page: page + 1, slug: trick.slug}) }}" class="button-primary">Commentaires suivants</a>
+            {% endif %}
+        </div>
     {% endif %}
 </div> 
 {% endblock %}

@@ -208,7 +208,10 @@ class TrickController extends AbstractController
             ->handleRequest($request);
 
         // Get all comments by trick id
-        $comments = $commentRepository->findBy(['trick' => $trick->getId()], ['publishDate' => 'DESC']);
+        $page = $request->query->getInt('page', 1);
+        $limit = 5;
+        $comments = $commentRepository->paginateComments($page, $limit, $trick->getId());
+        $maxPages = ceil($comments->count() / $limit);
 
         $commentsModificationForms = [];
         foreach ($comments as $comment) {
@@ -244,6 +247,8 @@ class TrickController extends AbstractController
             'form' => $commentForm,
             'comments' => $comments,
             'commentsModificationForms' => $commentsModificationForms,
+            'maxPages' => $maxPages,
+            'page' => $page
         ]);
     }
 }
