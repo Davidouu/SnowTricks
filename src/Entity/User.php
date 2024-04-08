@@ -41,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(message: 'Veuillez saisir une adresse email valide')]
     private ?string $email = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $profilePicture = null;
+
     #[ORM\Column]
     private ?bool $isValidate = null;
 
@@ -148,6 +151,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getProfilepicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilepicture(?string $profilepicture): static
+    {
+        $this->profilePicture = $profilepicture;
 
         return $this;
     }
