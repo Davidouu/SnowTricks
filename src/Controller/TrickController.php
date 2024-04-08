@@ -105,6 +105,7 @@ class TrickController extends AbstractController
                 // Supression d'une image
                 if (!in_array($image, $trick->getImages()->toArray())) {
                     $trick->removeImage($image);
+                    $fileUploader->remove($image->getName());
                     $entityManager->remove($image);
                     continue;
                 }
@@ -174,11 +175,12 @@ class TrickController extends AbstractController
     }
 
     #[Route(path: '/trick/{slug}/supprimer', name: 'app_tricks_delete', requirements: ['slug' => '[A-Za-z0-9-]+'])]
-    public function delete(Trick $trick, EntityManagerInterface $entityManager): Response
+    public function delete(Trick $trick, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         // On supprime les images lié
         $images = $trick->getImages();
         foreach ($images as $image) {
+            $fileUploader->remove($image->getName());
             $entityManager->remove($image);
         }
 
