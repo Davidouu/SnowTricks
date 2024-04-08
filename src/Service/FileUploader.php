@@ -25,7 +25,7 @@ class FileUploader
         return $this->targetDirectory;
     }
 
-    public function remove($file): void
+    public function remove(string $file): void
     {
         $file = $this->getTargetDirectory() . '/' . $file;
         if (file_exists($file)) {
