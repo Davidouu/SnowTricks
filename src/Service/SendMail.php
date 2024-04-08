@@ -16,7 +16,7 @@ class SendMail
         $this->mailer = $mailer;
     }
 
-    public function sendMail(User $user)
+    public function sendMail(User $user): void
     {
         $email = (new TemplatedEmail())
             ->from(new Address(
@@ -36,7 +36,7 @@ class SendMail
         $this->mailer->send($email);
     }
 
-    public function sendResetMail(User $user)
+    public function sendResetMail(User $user): void
     {
         $email = (new TemplatedEmail())
             ->from(new Address(
