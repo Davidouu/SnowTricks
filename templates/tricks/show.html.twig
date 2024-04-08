@@ -32,7 +32,7 @@
                             <iframe class="w-full h-full rounded-lg" :src="slide" frameborder="0" allowfullscreen></iframe>
                         </template>
                         <template x-if="!slide.includes('/embed/')">
-                            <img class="w-full h-full object-cover object-center rounded-lg" :src="'{{ asset('tricks_images/') }}' + slide" alt="slide">
+                            <img class="w-full h-full object-cover object-center rounded-lg" :src="'{{ asset('images/') }}' + slide" alt="slide">
                         </template>
                     </div>
                 </template>
@@ -91,7 +91,8 @@
             <div class="w-full max-w-md px-8 py-4 mt-10 bg-white rounded-lg shadow-lg mx-auto">
                 <p class="mt-2 text-sm text-gray-600">{{ comment.message }}</p>
 
-                <div class="flex mt-4">
+                <div class="flex mt-4 gap-x-4 items-center max-h-10">
+                    <img class="object-cover w-10 h-10 rounded-full" src="{{ asset('images/') }}{{ comment.user.profilePicture }}" alt="avatar" class="w-8 h-8 rounded-full ml-2">
                     <p class="text-lg font-medium text-blue-600" tabindex="0" role="link">{{ comment.user.firstname }} {{ comment.user.lastname }}</p>
                 </div>
                 {% if app.user and app.user.id == comment.user.id %}
