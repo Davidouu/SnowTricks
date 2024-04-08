@@ -92,7 +92,7 @@
                 <p class="mt-2 text-sm text-gray-600">{{ comment.message }}</p>
 
                 <div class="flex mt-4 gap-x-4 items-center max-h-10">
-                    <img class="object-cover w-10 h-10 rounded-full" src="{{ asset('images/') }}{{ comment.user.profilePicture }}" alt="avatar" class="w-8 h-8 rounded-full ml-2">
+                    <img class="object-cover w-10 h-10 rounded-full" src="{% if comment.user.profilePicture == null %}{{ asset('images/user-solid.svg') }}{% else %}{{ asset('images/') }}{{ comment.user.profilePicture }}{% endif %}" alt="avatar" class="w-8 h-8 rounded-full ml-2">
                     <p class="text-lg font-medium text-blue-600" tabindex="0" role="link">{{ comment.user.firstname }} {{ comment.user.lastname }}</p>
                 </div>
                 {% if app.user and app.user.id == comment.user.id %}

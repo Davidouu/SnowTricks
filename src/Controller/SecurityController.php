@@ -73,8 +73,6 @@ class SecurityController extends AbstractController
             if ($profilPicture) {
                 $fileName = $fileUploader->upload($temporaryFile);
                 $user->setProfilePicture($fileName);
-            } else {
-                $user->setProfilePicture('user-solid.svg');
             }
 
             // On sauvegarde l'utilisateur en base de données
