@@ -40,7 +40,7 @@
                 <div class="image-preview flex">
                     {% for image in form.images.children %}
                         <div class="tricks_form_images preview-images tricks_form_images_edit {{ image.vars.id }}" data-index={{ loop.index0 }}>
-                            <img src="{{ asset('tricks_images/' ~ image.vars.value.name) }}" alt="{{ image.vars.value.name }}" class="image-preview-item-image">
+                            <img src="{{ asset('images/' ~ image.vars.value.name) }}" alt="{{ image.vars.value.name }}" class="image-preview-item-image">
                         </div>
                     {% endfor %}
                 </div>

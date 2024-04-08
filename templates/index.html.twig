@@ -9,7 +9,7 @@
             <div class="w-full max-w-xs overflow-hidden bg-white rounded-lg shadow-lg relative">
                 <a href="{{ path('app_trick_show', {slug: trick.slug}) }}">
                     <img class="object-cover w-full h-56"  alt="{{ trick.name }}" 
-                    src="{{ trick.images is empty ? asset('tricks_images/' ~ 'default-image.jpg') : asset('tricks_images/' ~ trick.images[0].name) }}">
+                    src="{{ trick.images is empty ? asset('images/' ~ 'default-image.jpg') : asset('images/' ~ trick.images[0].name) }}">
                 </a>
 
                 <div class="p-5 text-center">

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Form\UserFormType;
@@ -14,6 +15,7 @@ use App\Entity\User;
 use App\Form\ResetPasswordFormType;
 use App\Service\SendMail;
 use App\Service\ValidateToken;
+use App\Service\FileUploader;
 use App\Form\EmailResetPasswordFormType;
 
 class SecurityController extends AbstractController
@@ -39,7 +41,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/register', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, SendMail $sendMail): Response
+    public function register(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, SendMail $sendMail): Response
     {
         $user = new User();
 
@@ -64,6 +66,16 @@ class SecurityController extends AbstractController
 
             // On génère un token pour la confirmation du compte
             $user->setToken(md5(uniqid()));
+
+            $profilPicture = $registrationForm->getProfilePicture();
+            $temporaryFile = new UploadedFile($profilPicture, 'temporaryFile');
+
+            if ($profilPicture) {
+                $fileName = $fileUploader->upload($temporaryFile);
+                $user->setProfilePicture($fileName);
+            } else {
+                $user->setProfilePicture('user-solid.svg');
+            }
 
             // On sauvegarde l'utilisateur en base de données
             $entityManager->persist($user);
