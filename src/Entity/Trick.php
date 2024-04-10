@@ -45,6 +45,9 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'tricks')]
     private Collection $categories;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'trick', cascade: ['persist', 'remove'])]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -197,6 +200,31 @@ class Trick
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComments(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComments(Comment $comment): static
+    {
+        $this->comments->removeElement($comment);
 
         return $this;
     }
