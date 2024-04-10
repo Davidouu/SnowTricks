@@ -39,7 +39,7 @@ class CommentController extends AbstractController
         }
     }
 
-    #[Route(path: '/comment/{id}/delete', name: 'app_comment_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+    #[Route(path: '/comment/{id}/delete', name: 'app_comment_delete', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function delete(Comment $comment, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($comment);
