@@ -6,7 +6,7 @@
 <div class="container">
     <h1 class="h3 text-4xl mb-6 mt-3 text-center font-bold">Connexion</h1>
 
-    <div class="w-1/2 border-solid border-2 rounded-md p-4">
+    <div class="border-solid border-2 rounded-md p-4">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
