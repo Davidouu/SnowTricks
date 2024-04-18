@@ -27,18 +27,18 @@
                 {% endif %}
             </div>
             <div class="mb-2">
-                {{ form_row(form.profilePicture)}}
-                {% if form_errors(form.profilePicture) %}
-                    <div class="text-red-500 text-sm">{{ form_errors(form.profilePicture) }}</div>
-                {% endif %}
-            </div>
-            <div class="mb-2">
                 {{ form_label(form.lastname, 'Nom', { 'label_attr' : { 'class' : 'label-primary'}}) }}
                 {{ form_widget(form.lastname, 
                 { 'attr': {'class': 'input-primary',
                 'placeholder': 'Dupont'} }) }}
                 {% if form_errors(form.lastname) %}
                     <div class="text-red-500 text-sm">{{ form_errors(form.lastname) }}</div>
+                {% endif %}
+            </div>
+            <div class="mb-2">
+                {{ form_row(form.profilePicture)}}
+                {% if form_errors(form.profilePicture) %}
+                    <div class="text-red-500 text-sm">{{ form_errors(form.profilePicture) }}</div>
                 {% endif %}
             </div>
             <div class="mb-2">
