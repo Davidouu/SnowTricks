@@ -194,7 +194,7 @@ class TricksFixtures extends Fixture
                     $categories[2],
                 ],
                 'images' => [
-                    'df-backflip-1.jpg',
+                    'df-back-flip-1.jpg',
                 ],
                 'videos' => [
                     'https://www.youtube.com/embed/SlhGVnFPTDE?si=ClWwI_ugisOrF-wr',
@@ -209,7 +209,7 @@ class TricksFixtures extends Fixture
                     $categories[2],
                 ],
                 'images' => [
-                    'df-frontflip-1.jpg',
+                    'df-front-flip-1.jpg',
                 ],
                 'videos' => [
                     'https://www.youtube.com/embed/xhvqu2XBvI0?si=m0P1YU9ixPp-AgzA',
