@@ -211,7 +211,7 @@ class TrickController extends AbstractController
 
         // Get all comments by trick id
         $page = $request->query->getInt('page', 1);
-        $limit = 5;
+        $limit = 10;
         $comments = $commentRepository->paginateComments($page, $limit, $trick->getId());
         $maxPages = ceil($comments->count() / $limit);
 

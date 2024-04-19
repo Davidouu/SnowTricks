@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     public function index(TrickRepository $trickRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = 6;
+        $limit = 10;
         $tricks = $trickRepository->paginateTricks($page, $limit);
         $maxPages = ceil($tricks->count() / $limit);
 
