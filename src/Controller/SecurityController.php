@@ -94,7 +94,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/confirmation/{id}/{token}', name: 'app_confirm_account', requirements: ['id' => '\d+'])]
+    #[Route(path: '/confirmation-account/{id}/{token}', name: 'app_confirm_account', requirements: ['id' => '\d+'])]
     public function confirmAccount(User $user, string $token, ValidateToken $checker): Response
     {
         try {
@@ -110,7 +110,7 @@ class SecurityController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    #[Route(path: '/mot-de-passe-oublie', name: 'app_forgot_password')]
+    #[Route(path: '/forgot-password', name: 'app_forgot_password')]
     public function forgotPassword(Request $request, EntityManagerInterface $entityManager, SendMail $sendMail): Response
     {
         $form = $this->createForm(EmailResetPasswordFormType::class)
@@ -160,7 +160,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/reinitialisation-mot-de-passe/{id}/{token}', name: 'app_reset_password', requirements: ['id' => '\d+'])]
+    #[Route(path: '/reset-password/{id}/{token}', name: 'app_reset_password', requirements: ['id' => '\d+'])]
     public function resetPassword(User $user, string $token, ValidateToken $checker, Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
     {
         try {
