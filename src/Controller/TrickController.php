@@ -19,7 +19,7 @@ use App\Service\VideosService;
 
 class TrickController extends AbstractController
 {
-    #[Route(path: '/nouveau-trick', name: 'app_tricks_new')]
+    #[Route(path: '/new-trick', name: 'app_tricks_new')]
     public function new(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager, SluggerInterface $slugger, VideosService $videosService): Response
     {
         $tricks = new Trick();
@@ -83,7 +83,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/trick/{slug}/modifier', name: 'app_tricks_edit', requirements: ['slug' => '[A-Za-z0-9-]+'])]
+    #[Route(path: '/trick/{slug}/edit', name: 'app_tricks_edit', requirements: ['slug' => '[A-Za-z0-9-]+'])]
     public function edit(Trick $trick, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager, SluggerInterface $slugger, VideosService $videosService): Response
     {
         $trickImages = $trick->getImages()->toArray();
@@ -174,7 +174,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/trick/{slug}/supprimer', name: 'app_tricks_delete', requirements: ['slug' => '[A-Za-z0-9-]+'])]
+    #[Route(path: '/trick/{slug}/delete', name: 'app_tricks_delete', requirements: ['slug' => '[A-Za-z0-9-]+'])]
     public function delete(Trick $trick, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         // On supprime les images lié
