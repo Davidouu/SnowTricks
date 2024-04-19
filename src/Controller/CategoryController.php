@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CategoryController extends AbstractController
 {
-    #[Route('/nouvelle-categorie', name: 'app_new_category')]
+    #[Route('/new-category', name: 'app_new_category')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $category = new Category();
@@ -38,7 +38,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/modifier-categorie/{id}', name: 'app_edit_category', requirements: ['id' => '\d+'])]
+    #[Route('/edit-category/{id}', name: 'app_edit_category', requirements: ['id' => '\d+'])]
     public function edit(Request $request, EntityManagerInterface $entityManager, Category $category): Response
     {
         $form = $this->createForm(CategoryFormType::class, $category)
@@ -60,7 +60,7 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/supprimer-categorie/{id}', name: 'app_delete_category', requirements: ['id' => '\d+'])]
+    #[Route('/delete-category/{id}', name: 'app_delete_category', requirements: ['id' => '\d+'])]
     public function delete(EntityManagerInterface $entityManager, Category $category): Response
     {
         $entityManager->remove($category);
